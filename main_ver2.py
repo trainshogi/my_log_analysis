@@ -1,5 +1,4 @@
-import glob
-import datetime
+import sys, glob, datetime
 import apache_log_parser
 
 # グローバル変数
@@ -45,6 +44,8 @@ def output_by_time(readfile,start_time,last_time):
         f = open(file, "r")
         # 解析用データ作成
         line = f.readline()           # 1行読む
+        # ループ回数
+        counter = 0
         while line:
             log_data = parser(line)   # 解析してdictionaryにする
             if(log_data['time_received_datetimeobj'] < start_time):
@@ -53,6 +54,10 @@ def output_by_time(readfile,start_time,last_time):
                 break
             else:
                 access_num[int(log_data['time_received_datetimeobj'].strftime('%H'))] += 1
+            counter += 1
+            if(counter % 10000 == 0):
+            	sys.stdout.write("\r読み込み数：%d" % counter)
+            	sys.stdout.flush()
             line = f.readline()       # 1行読む
     # 出力
     for i in range(24):
@@ -68,6 +73,8 @@ def output_by_host(readfile,start_time,last_time):
         f = open(file, "r")
         # 解析用データ作成
         line = f.readline()           # 1行読む
+        # ループ回数
+        counter = 0
         while line:
             log_data = parser(line)   # 解析してdictionaryにする
             if(log_data['time_received_datetimeobj'] < start_time):
@@ -79,11 +86,15 @@ def output_by_host(readfile,start_time,last_time):
             else:
                 access_num.append({"remote_host":log_data['remote_host'],"sum":1})
                 hostname.append(log_data['remote_host'])
+            counter += 1
+            if(counter % 10000 == 0):
+            	sys.stdout.write("\r読み込み数：%d" % counter)
+            	sys.stdout.flush()
             line = f.readline()       # 1行読む
     # アクセス件数でソート
-    sorted(access_num, key = lambda x: x['sum'], reverse = True)
+    new_list = sorted(access_num, key = lambda x: x['sum'], reverse = True)
     # 出力
-    for i in access_num:
+    for i in new_list:
         print(i['remote_host'] + ' : ' + str(i['sum']))
 # 最後に実行
 main()
