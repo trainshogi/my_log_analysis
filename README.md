@@ -5,7 +5,7 @@ apache access logをパースするためのプログラム。
 言語　　　：python3
 開発環境　：Windows10
 エディタ　：Atom
-ライブラリ：標準ライブラリ(glob, datetime)
+ライブラリ：標準ライブラリ(sys, glob, datetime)
 　　　　　：apache_log_parser
 入出力　　：標準入出力（コマンド）
 元データ　：targetフォルダ内に保存の.txt形式ファイルがすべて対象
@@ -28,6 +28,10 @@ apache access logをパースするためのプログラム。
     aaaa/bb/cc dd:ee:ff
    （aaaa:年, bb:月, cc:日, dd:時, ee:分, ff:ミリ秒）
 ・実行方法
-   main_ver2.pyとtargetが同フォルダ内にある状態で
-    python main_ver2.py
-   とすればよい。
+   main_ver3.pyとtargetが同フォルダ内にある状態で
+    python main_ver3.py
+   とすればよい。
+・バージョン
+   main_ver1.pyがメモリ管理を考慮しないプログラム、
+   main_ver2.pyは進捗状況を出力しないプログラムです。
+   ご参考にお願いします。
